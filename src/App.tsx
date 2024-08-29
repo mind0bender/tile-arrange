@@ -43,7 +43,7 @@ function App(): JSX.Element {
     e: MouseEvent<HTMLButtonElement>,
     pos: GridIdx
   ) => void = useCallback(
-    (e: MouseEvent<HTMLButtonElement>, pos: GridIdx): void => {
+    (_e: MouseEvent<HTMLButtonElement>, pos: GridIdx): void => {
       setMoveCount((pMC: number): number => pMC + 1);
       if (!startTime.current) {
         startTime.current = Date.now();
