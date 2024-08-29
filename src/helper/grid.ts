@@ -80,3 +80,17 @@ export function swappedTiles(
   activeTile.occupied = false;
   return gridCopy;
 }
+
+// TODO: this function is incomplete, blank tile not considered
+export function isSolved(grid: Tile[][]): boolean {
+  let count: number = 1;
+  for (const row of grid) {
+    for (const tile of row) {
+      if (tile.occupied && count !== tile.value) {
+        return false;
+      }
+      count++;
+    }
+  }
+  return true;
+}
