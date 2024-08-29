@@ -44,3 +44,39 @@ export function getRandomGrid(size: number = 4): Tile[][] {
   }
   return grid;
 }
+
+export function getNeighbourGridIdxs(
+  pos: GridIdx,
+  gridSize: number = 4
+): GridIdx[] {
+  const neighbourGridIdxs: GridIdx[] = [];
+  if (pos[0]) {
+    neighbourGridIdxs.push([pos[0] - 1, pos[1]]);
+  }
+  if (pos[1]) {
+    neighbourGridIdxs.push([pos[0], pos[1] - 1]);
+  }
+  if (pos[0] < gridSize - 1) {
+    neighbourGridIdxs.push([pos[0] + 1, pos[1]]);
+  }
+  if (pos[1] < gridSize - 1) {
+    neighbourGridIdxs.push([pos[0], pos[1] + 1]);
+  }
+  return neighbourGridIdxs;
+}
+
+export function swappedTiles(
+  grid: Tile[][],
+  activeTileIdx: GridIdx,
+  blankTileIdx: GridIdx
+): Tile[][] {
+  const gridCopy: Tile[][] = Array(...grid);
+  const blankTile: Tile = gridCopy[blankTileIdx[0]][blankTileIdx[1]];
+  const activeTile: Tile = gridCopy[activeTileIdx[0]][activeTileIdx[1]];
+  blankTile.occupied = true;
+  if (blankTile.occupied && activeTile.occupied) {
+    blankTile.value = activeTile.value;
+  }
+  activeTile.occupied = false;
+  return gridCopy;
+}
