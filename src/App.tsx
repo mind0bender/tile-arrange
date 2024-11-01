@@ -14,9 +14,9 @@ import {
   Tile,
 } from "./helper/grid";
 import checkWin from "./helper/check";
-import FrontCard from "./components/frontcard";
-import BackCard from "./components/backcard";
 import { CopyBoard } from "./helper/misc";
+import BackCard from "./components/backcard";
+import FrontCard from "./components/frontcard";
 
 function App(): JSX.Element {
   const [time, setTime] = useState<number>(0);
@@ -28,7 +28,7 @@ function App(): JSX.Element {
   const initialBoard: MutableRefObject<Tile[][]> = useRef(getRandomGrid());
   const [tileGrid, setTileGrid] = useState<Tile[][]>(
     CopyBoard(initialBoard.current)
-  );
+  ); // can't use the OG initial board as it will be mutated
 
   const [winStatus, setWinStatus] = useState<boolean>(false);
 
@@ -58,7 +58,6 @@ function App(): JSX.Element {
     pos: GridIdx
   ) => void = useCallback(
     (_e: MouseEvent<HTMLButtonElement>, pos: GridIdx): void => {
-      setMoveCount((pMC: number): number => pMC + 1);
       if (!startTime.current) {
         startTime.current = Date.now();
         timerIntervalId.current = setInterval((): void => {
@@ -72,6 +71,7 @@ function App(): JSX.Element {
             !tileGrid[neighbourIdx[0]][neighbourIdx[1]].occupied
         )[0] || null;
       if (blankNeighbourIdx) {
+        setMoveCount((pMC: number): number => pMC + 1);
         setTileGrid((pTG: Tile[][]): Tile[][] => {
           const updatedBoard: Tile[][] = swappedTiles(
             pTG,
@@ -107,6 +107,7 @@ function App(): JSX.Element {
               time={time}
               startTime={startTime.current}
               board={initialBoard.current}
+              moveCount={moveCount}
               resetGame={resetGame}
             />
           </div>

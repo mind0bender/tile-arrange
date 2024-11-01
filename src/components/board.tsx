@@ -1,14 +1,14 @@
-import { MouseEvent, ReactNode } from "react";
+import { HTMLAttributes, MouseEvent, ReactNode } from "react";
 import { GridIdx, Tile } from "../helper/grid";
 
-interface BoardProps {
+interface BoardProps extends HTMLAttributes<HTMLDivElement> {
   board: Tile[][];
   handleTileSwap?: (e: MouseEvent<HTMLButtonElement>, pos: GridIdx) => void;
 }
 
-function Board({ board, handleTileSwap }: BoardProps): JSX.Element {
+function Board({ board, handleTileSwap, ...rest }: BoardProps): JSX.Element {
   return (
-    <div className={`flex flex-col gap-1`}>
+    <div {...rest} className={`flex flex-col gap-1 ${rest.className}`}>
       {board.map((tileRow: Tile[], idxI: number): ReactNode => {
         return (
           <div key={idxI} className={`flex justify-center items-center gap-1`}>
